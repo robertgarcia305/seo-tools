@@ -1,0 +1,839 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopify Handle Extractor | SEO Tools</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --page-bg: #faf5eb;
+      --card-bg: #ffffff;
+      --text: #171615;
+      --muted: #5c5853;
+      --blue: #56a9d8;
+      --purple: #7950d9;
+      --pink: #d65b91;
+      --green: #5c9b70;
+      --highlight: #f4e7a0;
+      --border: #e7e0d7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    .seo-landing {
+      width: 100%;
+      padding: 30px 24px 44px;
+    }
+
+    .seo-container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #77716a;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.4px;
+      line-height: 1.5;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(30px, 4.2vw, 47px);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .highlight {
+      position: relative;
+      display: inline;
+      z-index: 0;
+    }
+
+    .highlight::after {
+      position: absolute;
+      z-index: -1;
+      right: -3px;
+      bottom: 2px;
+      left: -3px;
+      height: 11px;
+      background: var(--highlight);
+      content: "";
+      transform: rotate(-1deg);
+    }
+
+    .hero-description {
+      max-width: 700px;
+      margin: 12px auto 0;
+      color: #494540;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* ANNOUNCEMENT BAR */
+
+    .announcement {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      width: fit-content;
+      max-width: 100%;
+      margin: 24px auto 30px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: #11100f;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .announcement code {
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #f1e5a3;
+      color: #26221b;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .announcement-note {
+      color: #e2dfdb;
+    }
+
+    /* MAIN CARD */
+
+    .tool-card {
+      position: relative;
+      padding: 28px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--card-bg);
+      box-shadow: 0 2px 5px rgb(45 35 20 / 3%);
+    }
+
+    .tool-card::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 4px;
+      background: var(--blue);
+      content: "";
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .card-number {
+      display: flex;
+      flex: 0 0 32px;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .card-kicker {
+      margin: 0 0 4px;
+      color: var(--blue);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.35;
+    }
+
+    .card-description {
+      margin: 0;
+      color: #5c5853;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* FORM */
+
+    .form-section {
+      margin-top: 25px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #35322e;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field-hint {
+      margin: -2px 0 10px;
+      color: #77716a;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .field-input,
+    .field-textarea {
+      display: block;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field-input {
+      min-height: 46px;
+      padding: 12px 14px;
+    }
+
+    .field-textarea {
+      min-height: 175px;
+      padding: 14px;
+      resize: vertical;
+    }
+
+    .field-input::placeholder,
+    .field-textarea::placeholder {
+      color: #9a938b;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus {
+      border-color: var(--blue);
+      outline: none;
+      box-shadow: 0 0 0 3px rgb(86 169 216 / 15%);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 16px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 9px;
+      background: #171615;
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.4;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      background: #393530;
+      transform: translateY(-1px);
+    }
+
+    .button:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+      transform: none;
+    }
+
+    .button-blue {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .button-blue:hover {
+      background: #358bbd;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    /* PROGRESS AND STATUS */
+
+    .status-box {
+      min-height: 20px;
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .status-box.error {
+      color: #b42318;
+    }
+
+    .status-box.success {
+      color: #49875b;
+    }
+
+    .progress-track {
+      height: 5px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #eee8df;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--blue);
+      transition: width 0.2s ease;
+    }
+
+    /* OUTPUT */
+
+    .output-section {
+      margin-top: 30px;
+      padding-top: 26px;
+      border-top: 1px solid var(--border);
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .output-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+    }
+
+    .output-tag {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 6px;
+      background: #edf6ee;
+      color: #49875b;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .output-textarea {
+      min-height: 240px;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+
+    .output-note {
+      margin: 10px 0 0;
+      color: #77716a;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 650px) {
+      .seo-landing {
+        padding: 24px 15px 30px;
+      }
+
+      .hero-title {
+        font-size: 32px;
+        line-height: 1.15;
+      }
+
+      .announcement {
+        width: 100%;
+        margin: 22px auto 24px;
+        padding: 13px 14px;
+        gap: 7px;
+        font-size: 11px;
+      }
+
+      .tool-card {
+        padding: 22px 18px;
+      }
+
+      .form-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .form-row .button {
+        width: 100%;
+      }
+
+      .form-actions .button {
+        flex: 1 1 100%;
+      }
+
+      .output-header {
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="seo-landing">
+    <div class="seo-container">
+
+      <header>
+        <p class="eyebrow">Shopify SEO Utilities</p>
+
+        <h1 class="hero-title">
+          Shopify <span class="highlight">Handle Extractor</span>
+        </h1>
+
+        <p class="hero-description">
+          Generate product variant URLs in bulk.
+          Paste your Shopify product handles, enter your store domain,
+          and export variant titles and URLs in a format ready for Excel.
+        </p>
+      </header>
+
+      <div class="announcement">
+        <span>Bulk URL generation</span>
+        <code>Handles → Variant URLs</code>
+        <span class="announcement-note">Excel-ready output</span>
+      </div>
+
+      <section class="tool-card" aria-labelledby="extractor-heading">
+
+        <div class="card-header">
+          <span class="card-number" aria-hidden="true">1</span>
+
+          <div>
+            <p class="card-kicker">Extract &amp; Organize</p>
+            <h2 class="card-title" id="extractor-heading">
+              Generate Variant URLs
+            </h2>
+            <p class="card-description">
+              Each product generates a default product URL followed by
+              its available variant URLs.
+            </p>
+          </div>
+        </div>
+
+        <form id="extractorForm">
+          <div class="form-section">
+            <label class="field-label" for="domainInput">
+              Shopify Store Domain
+            </label>
+
+            <p class="field-hint">
+              Enter your storefront domain, including https://.
+            </p>
+
+            <input
+              class="field-input"
+              id="domainInput"
+              type="url"
+              placeholder="https://starrwesternwear.com"
+              autocomplete="url"
+              required
+            >
+          </div>
+
+          <div class="form-section">
+            <label class="field-label" for="handleInput">
+              Product Handles
+            </label>
+
+            <p class="field-hint">
+              Paste one handle per line. You can also paste a list
+              separated by spaces or commas.
+            </p>
+
+            <textarea
+              class="field-textarea"
+              id="handleInput"
+              placeholder="mens-western-shirt&#10;womens-leather-jacket&#10;boys-denim-jeans"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="button button-blue" id="generateButton" type="submit">
+              Generate All Variant URLs <span aria-hidden="true">→</span>
+            </button>
+
+            <button class="button" type="button" id="clearButton">
+              Clear All
+            </button>
+          </div>
+        </form>
+
+        <p class="status-box" id="progress" role="status" aria-live="polite"></p>
+
+        <div
+          class="progress-track"
+          id="progressTrack"
+          role="progressbar"
+          aria-label="Product processing progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          hidden
+        >
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-header">
+            <h3 class="output-title">Generated URLs</h3>
+            <span class="output-tag">Excel-ready</span>
+          </div>
+
+          <label class="field-label" for="output">
+            Variant titles and relative URLs
+          </label>
+
+          <textarea
+            class="field-textarea output-textarea"
+            id="output"
+            placeholder="Your generated URLs will appear here..."
+            spellcheck="false"
+          ></textarea>
+
+          <div class="form-actions">
+            <button class="button button-blue" type="button" id="copyButton">
+              Copy All (without headers)
+            </button>
+
+            <button class="button" type="button" id="downloadButton">
+              Download TSV
+            </button>
+          </div>
+
+          <p class="output-note">
+            Output is tab-separated for Excel. Variant URLs use the
+            relative path /products/handle?variant=ID.
+            The default product URL is included for each product.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const form = document.getElementById("extractorForm");
+    const handleInput = document.getElementById("handleInput");
+    const domainInput = document.getElementById("domainInput");
+    const output = document.getElementById("output");
+    const progress = document.getElementById("progress");
+    const progressTrack = document.getElementById("progressTrack");
+    const progressBar = document.getElementById("progressBar");
+    const generateButton = document.getElementById("generateButton");
+
+    // Clean common mis-encoded characters.
+    function cleanHandle(handle) {
+      return handle
+        .replace(/Â®/g, "®")
+        .replace(/â€™/g, "’")
+        .replace(/â€“/g, "–")
+        .replace(/Â/g, "")
+        .trim();
+    }
+
+    // Accept handles separated by lines, spaces, tabs, or commas.
+    function getHandles() {
+      const raw = handleInput.value
+        .split(/[\s,]+/)
+        .map(cleanHandle)
+        .filter(Boolean);
+
+      return [...new Set(raw)];
+    }
+
+    function setProgress(message, type = "") {
+      progress.textContent = message;
+      progress.className = "status-box" + (type ? " " + type : "");
+    }
+
+    function updateProgress(current, total) {
+      const percentage = total ? Math.round((current / total) * 100) : 0;
+
+      progressTrack.hidden = total === 0;
+      progressTrack.setAttribute("aria-valuenow", percentage);
+      progressBar.style.width = percentage + "%";
+    }
+
+    function normalizeDomain(value) {
+      let domain = value.trim().replace(/\/+$/, "");
+
+      if (!/^https?:\/\//i.test(domain)) {
+        domain = "https://" + domain;
+      }
+
+      const url = new URL(domain);
+
+      if (!["http:", "https:"].includes(url.protocol)) {
+        throw new Error("Enter a valid HTTP or HTTPS store domain.");
+      }
+
+      if (url.username || url.password) {
+        throw new Error("The domain must not contain login credentials.");
+      }
+
+      return url.origin;
+    }
+
+    async function generateVariantURLs() {
+      const handles = getHandles();
+      let domain;
+
+      try {
+        domain = normalizeDomain(domainInput.value);
+      } catch (error) {
+        setProgress(error.message, "error");
+        return;
+      }
+
+      if (!handles.length) {
+        setProgress("Please enter at least one product handle.", "error");
+        return;
+      }
+
+      const rows = ["Variant Title\tVariant URL"];
+      let completed = 0;
+      let errors = 0;
+
+      generateButton.disabled = true;
+      setProgress(`Starting: ${handles.length} unique product handle(s).`);
+      updateProgress(0, handles.length);
+
+      try {
+        for (const handle of handles) {
+          setProgress(
+            `Processing ${completed + 1}/${handles.length}: ${handle}`
+          );
+
+          const encodedHandle = encodeURIComponent(handle);
+          const jsUrl =
+            `${domain}/products/${encodedHandle}.js`;
+
+          try {
+            const response = await fetch(jsUrl);
+
+            if (!response.ok) {
+              throw new Error(
+                `HTTP ${response.status}: Product data unavailable`
+              );
+            }
+
+            const data = await response.json();
+
+            // Include the default product URL.
+            rows.push(
+              `Default\t/products/${encodedHandle}`
+            );
+
+            if (Array.isArray(data.variants)) {
+              for (const variant of data.variants) {
+                const title = String(variant.title || "Default Title")
+                  .replace(/[\t\r\n]+/g, " ");
+
+                const relativeUrl =
+                  `/products/${encodedHandle}?variant=${variant.id}`;
+
+                rows.push(`${title}\t${relativeUrl}`);
+              }
+            }
+          } catch (error) {
+            errors++;
+
+            console.error("Error fetching product:", handle, error);
+
+            rows.push(
+              `# Error fetching: ${handle} (${error.message})\t`
+            );
+          }
+
+          completed++;
+          updateProgress(completed, handles.length);
+        }
+
+        output.value = rows.join("\n");
+
+        if (errors) {
+          setProgress(
+            `Finished with ${errors} error(s). ` +
+            `Processed ${completed} of ${handles.length} products. ` +
+            `Check failed handles in the output.`,
+            "error"
+          );
+        } else {
+          setProgress(
+            `Done! Processed ${completed} products successfully.`,
+            "success"
+          );
+        }
+      } finally {
+        generateButton.disabled = false;
+      }
+    }
+
+    async function copyOutput() {
+      const lines = output.value.split("\n");
+
+      if (lines.length <= 1) {
+        setProgress("Generate URLs before copying.", "error");
+        return;
+      }
+
+      // Remove the header row while retaining any error rows.
+      const textToCopy = lines.slice(1).join("\n");
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(textToCopy);
+        } else {
+          // Fallback for browsers where Clipboard API is unavailable.
+          output.focus();
+          output.select();
+
+          const copied = document.execCommand("copy");
+
+          if (!copied) {
+            throw new Error("Copy was blocked by the browser.");
+          }
+        }
+
+        setProgress("Copied output without headers.", "success");
+      } catch (error) {
+        setProgress(
+          "Unable to copy automatically. Select the output and copy it manually.",
+          "error"
+        );
+      }
+    }
+
+    function downloadTSV() {
+      if (!output.value.trim()) {
+        setProgress("Generate URLs before downloading.", "error");
+        return;
+      }
+
+      const blob = new Blob([output.value], {
+        type: "text/tab-separated-values;charset=utf-8;"
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "shopify-variant-urls.tsv";
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+      setProgress("TSV file download started.", "success");
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await generateVariantURLs();
+    });
+
+    document.getElementById("copyButton")
+      .addEventListener("click", copyOutput);
+
+    document.getElementById("downloadButton")
+      .addEventListener("click", downloadTSV);
+
+    document.getElementById("clearButton")
+      .addEventListener("click", () => {
+        handleInput.value = "";
+        output.value = "";
+        progressTrack.hidden = true;
+        updateProgress(0, 0);
+        setProgress("");
+        handleInput.focus();
+      });
+  </script>
+</body>
+</html>
